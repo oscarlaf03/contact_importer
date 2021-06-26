@@ -1,9 +1,11 @@
 def email_name(full_name)
-  random_separator = [ "-", "_",".",""]
-  random_digits = Random.rand(99999).to_s
-  full_name = full_name.gsub('.',"")
-  full_name = full_name.gsub(" ",random_separator.sample)
-  (full_name + random_separator.sample + random_digits).downcase
+  if full_name.present?
+    random_separator = [ "-", "_",".",""]
+    random_digits = Random.rand(99999).to_s
+    full_name = full_name.gsub('.',"")
+    full_name = full_name.gsub(" ",random_separator.sample)
+    (full_name + random_separator.sample + random_digits).downcase
+  end
 end
 
 FactoryBot.define do

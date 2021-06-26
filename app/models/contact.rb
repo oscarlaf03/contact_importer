@@ -1,6 +1,7 @@
 class Contact < ApplicationRecord
   belongs_to :user
   validates :email, presence: true, email: true, uniqueness: { scope: :user_id }
+  validates :name, presence: true, name: true
   validates :address , presence: true
   validates :phone, presence: true
   validates :credit_card, presence: true, credit_card: true, on: [:create, :update]
@@ -45,7 +46,7 @@ class Contact < ApplicationRecord
   end
 
   def encrypt_credit_card_forever
-    aes = OpenSSL::Cipher::Cipher.new("AES-256-CBC" )
+    aes = OpenSSL::Cipher.new("AES-256-CBC" )
     aes.encrypt
     aes.key = aes.random_key
     encrypted_card = Base64.encode64(aes.update(self.credit_card) + aes.final).gsub("\n", "")

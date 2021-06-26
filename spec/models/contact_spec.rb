@@ -2,7 +2,31 @@ require 'rails_helper'
 
 RSpec.describe Contact, type: :model do
   context "Validating attributes" do
+
     context "Should not be valid" do
+      it "with special char on name" do
+        invalid_chars = %w[ ! @ # $ % "& * ( ) [ ] { } = + ¨ ^ ~ / \ Ç ç > < , ; : ?  ¡ ¿  " ']
+        invalid_chars.each do |char|
+          invalid_name = "invalid na#{char}me"
+          contact = build(:contact,name: invalid_name)
+          if contact.valid?
+            raise "invalid char not detected: #{char}"
+          end
+        end
+      end
+
+      it "with a nil name" do
+        contact = build(:contact, name: nil)
+        contact.valid?
+        assert contact.errors.details.keys.include?(:name)
+      end
+
+      it "with a blank name" do
+        contact = build(:contact, name: '')
+        contact.valid?
+        assert contact.errors.details.keys.include?(:name)
+      end
+
       it "with invalid email address" do
         contact = build(:contact, email: 'invalid___email')
         contact.valid?
@@ -186,7 +210,7 @@ RSpec.describe Contact, type: :model do
 
     end
 
-    context "Should save card as ecnrypted string" do
+    context "Should save card as encrypted string" do
 
       it "Should encrypt 30569309025904 " do
         contact = create(:contact, credit_card: '30569309025904')
