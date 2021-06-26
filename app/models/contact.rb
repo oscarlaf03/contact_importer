@@ -85,8 +85,4 @@ class Contact < ApplicationRecord
     not self.errors.keys.include?(:credit_card)
   end
 
-  # def card_present?
-  #   credit_card.kind_of?(String)
-  # end
-
 end
