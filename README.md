@@ -30,7 +30,7 @@ commited on this repo as `test_import_card_data.csv`
   *  [X] Validates presence of all contact fields: credit_card, name, Date Of Birth, phone, address, credit_card, franchise, email
   * [X] Validates that name cannot have any special character except for "-"
   * [ ] Validates format of Date of Birth
-  * [ ] Ignores phone numbersn that are not in the format of either "(+00) 000 000 00 00 00" or "(+00) 000*000*00*00" whenever a phone misses that format it is saved as nil instead
+  * [X] Ignores phone numbersn that are not in the format of either "(+00) 000 000 00 00 00" or "(+00) 000-000-00-00" whenever a phone misses that format it is saved as nil instead
   * [X] Validates address is present
   * [X] Validates credit card is a numeric input complian to the Luhn algorythm
   * [X] Infers the card brand from a valid credit_card number and stores it as "franchise"
