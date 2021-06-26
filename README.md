@@ -40,6 +40,6 @@ commited on this repo as `test_import_card_data.csv`
   * [ ] Missed contacts imports are stored  as errors
   * [ ] A Status is kept for the importinng porcessing
 
-  Bonus
-    * [ ] Upload processed files to S3
-    * [ ] Process imports on the background
+  Bonus:
+  * [ ] Upload processed files to S3
+  * [ ] Process imports on the background
