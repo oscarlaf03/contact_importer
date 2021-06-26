@@ -5,10 +5,14 @@ class Contact < ApplicationRecord
   validates :phone, presence: true
   validates :credit_card, presence: true, credit_card: true
   validates :dob, presence: true
+  after_validation :set_card_info
   before_save :ignore_phone, if: :invalid_phone_format?
-  before_save :set_franchise
+  before_save :encrypt_credit_card_forever
+
 
   private
+
+  
   def invalid_phone_format?
     return true if not [22,19].include?(self.phone.length)
     return true if /^\(\+\d{2}\)\s{1}/.match(self.phone).nil?
@@ -25,6 +29,30 @@ class Contact < ApplicationRecord
   def set_franchise
     detector = CreditCardValidations::Detector.new(self.credit_card)
     self.franchise = detector.brand.to_s
+  end
+
+  def set_digits
+    self.card_digits  = self.credit_card[-4,self.credit_card.length]
+  end
+
+  def set_card_length
+    self.card_length = self.credit_card.length
+  end
+
+  def set_card_info
+    set_franchise
+    set_digits
+    set_card_length
+  end
+
+  def encrypt_credit_card_forever
+    # key = [SecureRandom.hex(32), SecureRandom.hex(32),SecureRandom.hex(32)].sample
+    # iv = [SecureRandom.hex(32), SecureRandom.hex(32),SecureRandom.hex(32)].sample
+    aes = OpenSSL::Cipher::Cipher.new("AES-256-CBC" )
+    aes.encrypt
+    aes.key = aes.random_key
+    encrypted_card = Base64.encode64(aes.update(self.credit_card) + aes.final).gsub("\n", "")
+    self.credit_card = encrypted_card
   end
 
 end

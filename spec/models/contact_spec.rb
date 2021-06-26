@@ -152,5 +152,59 @@ RSpec.describe Contact, type: :model do
       end
 
     end
+
+    context "Should persist card last 4 digits" do
+
+      it "Should save 8431 from card number 371449635398431 " do
+        contact = create(:contact, credit_card: '371449635398431')
+        expect(contact.card_digits).to eq('8431')
+      end
+
+      it "Should save 5904 from card number 30569309025904 " do
+        contact = create(:contact, credit_card: '30569309025904')
+        expect(contact.card_digits).to eq('5904')
+      end
+
+    end
+
+    context "Should persist card length info" do
+
+      it "Should save 14 from card length of 30569309025904 " do
+        contact = create(:contact, credit_card: '30569309025904')
+        expect(contact.card_length).to eq(14)
+      end
+
+      it "Should save 15 from card length of 371449635398431 " do
+        contact = create(:contact, credit_card: '371449635398431')
+        expect(contact.card_length).to eq(15)
+      end
+
+      it "Should save 16 from card length of 4111111111111111 " do
+        contact = create(:contact, credit_card: '4111111111111111')
+        expect(contact.card_length).to eq(16)
+      end
+
+    end
+
+    context "Should save card as ecnrypted string" do
+
+      it "Should encrypt 30569309025904 " do
+        contact = create(:contact, credit_card: '30569309025904')
+        expect(contact.credit_card).not_to eq('30569309025904')
+      end
+
+      it "Should encrypt 371449635398431 " do
+        contact = create(:contact, credit_card: '371449635398431')
+        expect(contact.credit_card).not_to eq('371449635398431')
+
+      end
+
+      it "Should encrypt 4111111111111111 " do
+        contact = create(:contact, credit_card: '4111111111111111')
+        expect(contact.credit_card).not_to eq('4111111111111111')
+      end
+
+    end
+
   end
 end
