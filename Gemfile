@@ -38,7 +38,7 @@ gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'mast
 gem "haml-rails", "~> 2.0"
 
 gem 'credit_card_validations'
-
+gem 'activerecord-import'
 
 group :development, :test do  gem 'pry-byebug'
   gem 'pry-rails'
