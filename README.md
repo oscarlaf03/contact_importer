@@ -1,3 +1,8 @@
+
+https://medium.com/@amanahluwalia/uploading-massive-csvs-into-rails-using-active-record-import-8f382d06cea1
+
+https://github.com/hugolantaume/credit_card_bins
+
 1. As a user, I must be able to log into the system using an email and a password.
 2. As a user, I must be able to register on the platform. For this, it will only be necessary to
 enter a username and password.

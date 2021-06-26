@@ -1,0 +1,35 @@
+.form-devise {
+  padding: 10px 20px;
+  margin-top: 50px;
+  border-radius: 3px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  h2 {
+      font-size: 25px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      text-align: center;
+  }
+  .form-group {
+    .text-muted{
+      color: moccasin!important;
+    }
+  }
+}
+
+.form-devise {
+  border-radius: 4%;
+  background: #333;
+  color: snow;
+  .submit {
+      // color: $san-dark-blue
+  }
+  a {
+      color: snow
+  }
+}
+
+// .login-form-container {
+//   .user {
+//       background: #333;
+//   }
+// }
