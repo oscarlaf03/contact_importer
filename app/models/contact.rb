@@ -1,14 +1,13 @@
 class Contact < ApplicationRecord
   belongs_to :user
-  validates :email, presence: true, email: true
+  validates :email, presence: true, email: true, uniqueness: { scope: :user_id }
   validates :address , presence: true
   validates :phone, presence: true
-  validates :credit_card, presence: true, credit_card: true
+  validates :credit_card, presence: true, credit_card: true, on: [:create, :update]
   validates :dob, presence: true
-  after_validation :set_card_info
+  after_validation :set_card_info,  if: :card_present?
   before_save :ignore_phone, if: :invalid_phone_format?
   before_save :encrypt_credit_card_forever
-
 
   private
 
@@ -46,13 +45,15 @@ class Contact < ApplicationRecord
   end
 
   def encrypt_credit_card_forever
-    # key = [SecureRandom.hex(32), SecureRandom.hex(32),SecureRandom.hex(32)].sample
-    # iv = [SecureRandom.hex(32), SecureRandom.hex(32),SecureRandom.hex(32)].sample
     aes = OpenSSL::Cipher::Cipher.new("AES-256-CBC" )
     aes.encrypt
     aes.key = aes.random_key
     encrypted_card = Base64.encode64(aes.update(self.credit_card) + aes.final).gsub("\n", "")
     self.credit_card = encrypted_card
+  end
+
+  def card_present?
+    credit_card.kind_of?(String)
   end
 
 end

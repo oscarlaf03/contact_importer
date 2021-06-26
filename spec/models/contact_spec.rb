@@ -206,5 +206,25 @@ RSpec.describe Contact, type: :model do
 
     end
 
+    context "Repeated contact emails per user" do
+      let(:user_one){ create(:user)}
+      let(:user_one_contact){ create(:contact,user: user_one )}
+      let(:user_two){ create(:user)}
+      let(:user_two_contact){ create(:contact,user: user_two )}
+
+      it "Should not accept repeated email per same user" do
+        new_contact = build(:contact, user: user_one, email:  user_one_contact.email)
+        new_contact.valid?
+        assert new_contact.errors.keys.include?(:email)
+      end
+
+      it "Should accept repeated email on another user" do
+        new_contact = create(:contact, user: user_one, email:  user_two_contact.email)
+        assert new_contact.persisted?
+        assert Contact.where(email: user_two_contact.email).size == 2
+      end
+
+    end
+
   end
 end
