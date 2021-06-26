@@ -3,9 +3,10 @@ class Contact < ApplicationRecord
   validates :email, presence: true, email: true
   validates :address , presence: true
   validates :phone, presence: true
-  validates :credit_card, presence: true
+  validates :credit_card, presence: true, credit_card: true
   validates :dob, presence: true
   before_save :ignore_phone, if: :invalid_phone_format?
+  before_save :set_franchise
 
   private
   def invalid_phone_format?
@@ -19,6 +20,11 @@ class Contact < ApplicationRecord
 
   def ignore_phone
     self.phone = nil
+  end
+
+  def set_franchise
+    detector = CreditCardValidations::Detector.new(self.credit_card)
+    self.franchise = detector.brand.to_s
   end
 
 end

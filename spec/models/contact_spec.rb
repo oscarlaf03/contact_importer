@@ -50,6 +50,12 @@ RSpec.describe Contact, type: :model do
         assert contact.errors.details.keys.include?(:dob)
       end
 
+      it "with an invalid credit_card" do
+        contact = build(:contact, credit_card: '123 123 123 12 3123  123 123')
+        contact.valid?
+        assert contact.errors.details.keys.include?(:credit_card)
+      end
+
       it "with a nil credit_card" do
         contact = build(:contact, credit_card: nil)
         contact.valid?
@@ -60,6 +66,8 @@ RSpec.describe Contact, type: :model do
         contact.valid?
         assert contact.errors.details.keys.include?(:credit_card)
       end
+
+      
     end
 
     context "Should ignore invalid phone formats" do
@@ -95,7 +103,7 @@ RSpec.describe Contact, type: :model do
 
     end
 
-    context "Should persist valid phone phone formats"do
+    context "Should only persist valid phone phone formats"do
 
       it "Persists valid phone format \"(+55) 119 236 42 16 75\"" do
         contact = create(:contact, phone:'(+55) 119 236 42 16 75')
@@ -107,6 +115,40 @@ RSpec.describe Contact, type: :model do
         contact = create(:contact, phone:'(+42) 123-321-21-12')
         assert contact.persisted?
         assert contact.phone.present?
+      end
+
+    end
+
+    context "Should identify credit_card franchise information" do
+
+      it "Should identify 371449635398431 as American Express" do
+        contact = create(:contact, credit_card: '371449635398431')
+        expect(contact.franchise).to eq('amex')
+      end
+
+      it "Should identify 30569309025904 as Diners Club" do
+        contact = create(:contact, credit_card: '30569309025904')
+        expect(contact.franchise).to eq('diners')
+      end
+
+      it "Should identify 6011111111111117 as Discover" do
+        contact = create(:contact, credit_card: '6011111111111117')
+        expect(contact.franchise).to eq('discover')
+      end
+
+      it "Should identify 3530111333300000 as JCB" do
+        contact = create(:contact, credit_card: '3530111333300000')
+        expect(contact.franchise).to eq('jcb')
+      end
+
+      it "Should identify 5555555555554444 as MasterCard" do
+        contact = create(:contact, credit_card: '5555555555554444')
+        expect(contact.franchise).to eq('mastercard')
+      end
+
+      it "Should identify 4111111111111111 as Visa" do
+        contact = create(:contact, credit_card: '4111111111111111')
+        expect(contact.franchise).to eq('visa')
       end
 
     end

@@ -37,6 +37,8 @@ gem 'factory_bot_rails'
 gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
 gem "haml-rails", "~> 2.0"
 
+gem 'credit_card_validations'
+
 
 group :development, :test do  gem 'pry-byebug'
   gem 'pry-rails'
