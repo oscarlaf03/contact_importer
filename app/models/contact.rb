@@ -3,6 +3,8 @@ class Contact < ApplicationRecord
   validates :email, presence: true, email: true
   validates :address , presence: true
   validates :phone, presence: true
+  validates :credit_card, presence: true
+  validates :dob, presence: true
   before_save :ignore_phone, if: :invalid_phone_format?
 
   private

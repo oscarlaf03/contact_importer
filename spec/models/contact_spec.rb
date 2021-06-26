@@ -14,6 +14,11 @@ RSpec.describe Contact, type: :model do
         contact.valid?
         assert contact.errors.details.keys.include?(:email)
       end
+      it "with a blank email address" do
+        contact = build(:contact, email: '')
+        contact.valid?
+        assert contact.errors.details.keys.include?(:email)
+      end
       it "with a nil address" do
         contact = build(:contact, address: nil)
         contact.valid?
@@ -33,6 +38,27 @@ RSpec.describe Contact, type: :model do
         contact = build(:contact, phone: "")
         contact.valid?
         assert contact.errors.details.keys.include?(:phone)
+      end
+      it "with a nil Date of Birth" do
+        contact = build(:contact, dob: nil)
+        contact.valid?
+        assert contact.errors.details.keys.include?(:dob)
+      end
+      it "with a blank Date of Birth" do
+        contact = build(:contact, dob: "")
+        contact.valid?
+        assert contact.errors.details.keys.include?(:dob)
+      end
+
+      it "with a nil credit_card" do
+        contact = build(:contact, credit_card: nil)
+        contact.valid?
+        assert contact.errors.details.keys.include?(:credit_card)
+      end
+      it "with a blank credit_card" do
+        contact = build(:contact, credit_card: "")
+        contact.valid?
+        assert contact.errors.details.keys.include?(:credit_card)
       end
     end
 
