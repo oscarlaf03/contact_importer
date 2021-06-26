@@ -6,14 +6,41 @@ class Contact < ApplicationRecord
   validates :phone, presence: true
   validates :credit_card, presence: true, credit_card: true, on: [:create, :update]
   validates :dob, presence: true
-  after_validation :set_card_info,  if: :card_present?
+  after_validation :set_card_info,  if: :card_valid?
   before_save :ignore_phone, if: :invalid_phone_format?
-  before_save :encrypt_credit_card_forever
+  before_save :encrypt_credit_card_forever, if: :card_valid?
+
+  require 'csv'
+  require 'activerecord-import/base'
+  require 'activerecord-import/active_record/adapters/postgresql_adapter'
+
+  def self.my_import(file,user_id)
+    contacts = []
+
+    CSV.foreach(file.path, headers: true) do  |row|
+      data = {**row.to_h.deep_symbolize_keys, user_id: user_id}
+      new_contact = Contact.new(data)
+      contacts << new_contact if new_contact.valid?
+    end
+    contacts.each do |contact|
+      contact.run_callbacks(:save) { false }
+      contact.run_callbacks(:create) { false }
+    end
+    Contact.import contacts, recursive: true, validate: false
+
+  end
+
+  def display_card
+    s = "*" * (self.card_length - 4)
+    s + self.card_digits
+  end
+
+
 
   private
-
   
   def invalid_phone_format?
+    return true if not self.phone.kind_of?(String)
     return true if not [22,19].include?(self.phone.length)
     return true if /^\(\+\d{2}\)\s{1}/.match(self.phone).nil?
     digits = self.phone[6, self.phone.length]
@@ -53,8 +80,13 @@ class Contact < ApplicationRecord
     self.credit_card = encrypted_card
   end
 
-  def card_present?
-    credit_card.kind_of?(String)
+
+  def card_valid?
+    not self.errors.keys.include?(:credit_card)
   end
+
+  # def card_present?
+  #   credit_card.kind_of?(String)
+  # end
 
 end

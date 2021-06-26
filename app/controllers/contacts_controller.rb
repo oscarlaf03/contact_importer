@@ -3,7 +3,12 @@ class ContactsController < ApplicationController
 
   # GET /contacts or /contacts.json
   def index
-    @contacts = Contact.all
+    @contacts = Contact.where(user_id: current_user.id)
+  end
+
+  def import
+    Contact.my_import(params[:file],current_user.id)
+    redirect_to root_url, notice: "Importing Cards"
   end
 
   # GET /contacts/1 or /contacts/1.json

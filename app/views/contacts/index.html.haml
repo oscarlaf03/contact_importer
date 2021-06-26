@@ -1,5 +1,11 @@
-%h1 Listing contacts
+.import_form
+  %h2 Import cards
+  = form_tag  user_import_contacts_path(current_user) , multipart: true  do
+    = file_field_tag :file
+    = submit_tag "Import from file"
 
+
+%h2 Listing contacts
 %table
   %thead
     %tr
@@ -8,12 +14,9 @@
       %th Phone
       %th Address
       %th Credit card
+      %th Display_card
       %th Franchise
       %th Email
-      %th Reference
-      %th
-      %th
-      %th
 
   %tbody
     - @contacts.each do |contact|
@@ -23,13 +26,12 @@
         %td= contact.phone
         %td= contact.address
         %td= contact.credit_card
+        %td= contact.display_card
         %td= contact.franchise
         %td= contact.email
-        %td= contact.reference
-        %td= link_to 'Show', contact
-        %td= link_to 'Edit', edit_contact_path(contact)
-        %td= link_to 'Destroy', contact, method: :delete, data: { confirm: 'Are you sure?' }
+        -# %td= link_to 'Show', contact
+        -# %td= link_to 'Edit', edit_contact_path(contact)
+        -# %td= link_to 'Destroy', contact, method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
 
-= link_to 'New Contact', new_contact_path

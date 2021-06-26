@@ -80,6 +80,12 @@ RSpec.describe Contact, type: :model do
         assert contact.errors.details.keys.include?(:credit_card)
       end
 
+      it "with an non numeric credit_card" do
+        contact = build(:contact, credit_card: 'not_a_valid_credit_card')
+        contact.valid?
+        assert contact.errors.details.keys.include?(:credit_card)
+      end
+
       it "with a nil credit_card" do
         contact = build(:contact, credit_card: nil)
         contact.valid?
@@ -214,17 +220,19 @@ RSpec.describe Contact, type: :model do
 
       it "Should encrypt 30569309025904 " do
         contact = create(:contact, credit_card: '30569309025904')
+        p 'encrypted card: ' + contact.credit_card
         expect(contact.credit_card).not_to eq('30569309025904')
       end
 
       it "Should encrypt 371449635398431 " do
         contact = create(:contact, credit_card: '371449635398431')
+        p 'encrypted card: ' + contact.credit_card
         expect(contact.credit_card).not_to eq('371449635398431')
-
       end
 
       it "Should encrypt 4111111111111111 " do
         contact = create(:contact, credit_card: '4111111111111111')
+        p 'encrypted card: ' + contact.credit_card
         expect(contact.credit_card).not_to eq('4111111111111111')
       end
 

@@ -10,7 +10,7 @@ end
 
 FactoryBot.define do
   factory :contact do
-    name { Faker::Name.name    }
+    name { Faker::Name.name.gsub('.',"").gsub("'","") }
     dob { Faker::Date.birthday(min_age: 18, max_age: 65) }
     phone { ["(+00) 000 000 00 00 00","(+00) 000-000-00-00"].sample }
     address { "some address" }
