@@ -1,0 +1,9 @@
+credit_card,dob,phone,email,address,name
+371449635398431,1980-12-01,(+00) 000 000 00 00 00,pedro@gmal.com,some adress,pedro
+30569309025904,1980-12-01,(+00) 000 000 00 00 00,juan@gmail.com,some adress,juan
+6011111111111117,1980-12-01,(+00) 000 000 00 00 00,pepe@gamil.com,some adress,pepe
+3530111333300000,1980-12-01,(+00) 000 000,pancho@gmail.com,some adress,pancho ignore phone
+5555555555554444,1980-12-01,(+00) 000 000 00 00 00,tito@gmail.com,some adress,tito
+4111111111111111,1980-12-01,(+00) 000 000 00 00 00,paco@gmail.com,some adress,paco
+invalid card,1980-12-01,(+00) 000 000 00 00 00,invalid_card@gmail.com,some adress,paco invalid card
+4111111111111111,1980-12-01,(+00) 000 000 00 00 00,invalid_name@gmail.com,some adress,p@aco
