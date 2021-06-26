@@ -7,3 +7,4 @@ credit_card,dob,phone,email,address,name
 4111111111111111,1980-12-01,(+00) 000 000 00 00 00,paco@gmail.com,some adress,paco
 invalid card,1980-12-01,(+00) 000 000 00 00 00,invalid_card@gmail.com,some adress,paco invalid card
 4111111111111111,1980-12-01,(+00) 000 000 00 00 00,invalid_name@gmail.com,some adress,p@aco
+4111111111111111,1980-12-01,(+00) 000 000 00 00 00,paco@gmail.com,some adress,repeated email

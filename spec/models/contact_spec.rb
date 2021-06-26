@@ -96,8 +96,13 @@ RSpec.describe Contact, type: :model do
         contact.valid?
         assert contact.errors.details.keys.include?(:credit_card)
       end
+    end
 
-      
+    context "should be valid" do
+      it "Accepts name with \"-\" char" do
+        contact = build(:contact, name: 'mc-lovin')
+        assert contact.valid?
+      end
     end
 
     context "Should ignore invalid phone formats" do
